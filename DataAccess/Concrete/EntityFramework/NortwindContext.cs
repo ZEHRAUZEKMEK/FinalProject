@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Text;
 
 namespace DataAccess.Concrete.EntityFramework
@@ -17,6 +18,8 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
+
+        
 
     }
 
