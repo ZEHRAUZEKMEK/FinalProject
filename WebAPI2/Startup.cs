@@ -23,7 +23,7 @@ using Core.Utilities.IoC;
 using Core.DependencyResolvers;
 using Core.Extensions;
 
-namespace WebAPI2
+namespace WebAPI
 {
     public class Startup
     {
@@ -72,6 +72,7 @@ namespace WebAPI2
             }
 
             app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

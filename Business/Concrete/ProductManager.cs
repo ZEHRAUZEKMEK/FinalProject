@@ -56,10 +56,10 @@ namespace Business.Concrete
         [CacheAspect]
         public IDataResult<List<Product>> GetAll()
         {
-            //if (DateTime.Now.Hour == 15)
-            //{
-            //    return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
-            //}
+            if (DateTime.Now.Hour == 14)
+            {
+                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
+            }
 
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductsListed);
         }
@@ -70,7 +70,7 @@ namespace Business.Concrete
         }
 
         [CacheAspect]
-        [PerformanceAspect(5)]
+        //[PerformanceAspect(5)]
         public IDataResult<Product> GetById(int productId)
         {
             return new SuccessDataResult<Product>(_productDal.Get(p=> p.ProductId==productId));
@@ -83,10 +83,10 @@ namespace Business.Concrete
 
         public IDataResult<List<ProductDetailDto>> GetProductDetails()
         {
-            //if (DateTime.Now.Hour == 11)
-            //{
-            //    return new ErrorDataResult<List<ProductDetailDto>>(Messages.MaintenanceTime);
-            //}
+            if (DateTime.Now.Hour == 11)
+            {
+                return new ErrorDataResult<List<ProductDetailDto>>(Messages.MaintenanceTime);
+            }
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());  
         }
 
@@ -94,8 +94,13 @@ namespace Business.Concrete
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Update(Product product)
         {
-           
-            throw new NotImplementedException();    
+
+            var result = _productDal.GetAll(p => p.CategoryId == product.CategoryId).Count;
+            if (result >= 10)
+            {
+                return new ErrorResult(Messages.ProductCountOfCategoryError);
+            }
+            throw new NotImplementedException();
 
         }
         private IResult CheckIfProductCountOfCategoryCorrect(int categoryId)
